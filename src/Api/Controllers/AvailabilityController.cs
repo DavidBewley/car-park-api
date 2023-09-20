@@ -11,8 +11,8 @@ namespace Api.Controllers
             => new ContentResult { StatusCode = 501 };
 
         [HttpGet]
-        [Route("")]
-        public async Task<IActionResult> GetAvailabilityForDate(DateTime startDate)
+        [Route("Price")]
+        public async Task<IActionResult> GetPriceForTimePeriod(DateTime startDate, DateTime endDate)
             => new ContentResult { StatusCode = 501 };
     }
 }
