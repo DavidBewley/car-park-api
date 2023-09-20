@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.csproj", "{04750CCF-4C53-490C-8902-EFBC43024FB9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecTests", "src\SpecTests\SpecTests.csproj", "{6E6F2664-9195-4318-A50E-C6C13FD3980C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecTests", "Tests\SpecTests\SpecTests.csproj", "{6E6F2664-9195-4318-A50E-C6C13FD3980C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "src\Services\Services.csproj", "{7CA9BBAE-9500-43B8-AEA1-F52DE90BE604}"
 EndProject
