@@ -1,6 +1,6 @@
-namespace Tests
+namespace SpecTests
 {
-    public class UnitTest1
+    public class BookingSpec
     {
         [Fact]
         public void Test1()
