@@ -5,6 +5,7 @@ using Core.Interfaces;
 using Core.Models;
 using Core.Models.Requests;
 using Core.Models.Responses;
+using Serilog;
 
 namespace Core.Processors
 {

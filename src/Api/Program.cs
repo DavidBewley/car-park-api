@@ -4,6 +4,7 @@ using Core.Configuration;
 using Core.Interfaces;
 using Core.Processors;
 using FluentValidation.AspNetCore;
+using Serilog;
 using Services;
 
 namespace Api
@@ -25,6 +26,11 @@ namespace Api
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
 
             var app = builder.Build();
 

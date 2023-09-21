@@ -3,6 +3,7 @@ using Dapper;
 using System.Data.SqlClient;
 using Core.Interfaces;
 using Core.Models;
+using Serilog;
 
 namespace Services
 {
@@ -45,34 +46,38 @@ namespace Services
         public async Task<List<Booking>> GetAllBookings()
             => await Query<Booking>("[dbo].[GetBookings]");
 
-        public async Task<List<ParkingSpace>> GetAllParkingSpaces() 
+        public async Task<List<ParkingSpace>> GetAllParkingSpaces()
             => await Query<ParkingSpace>("[dbo].[GetParkingSpaces]");
 
-        private async Task Execute(string procedureName, object parameters = null)
+        private async Task Execute(string procedureName, object? parameters = null)
         {
             try
             {
+                Log.Information("EXECUTE {proc} with parameters {parameters}", procedureName, parameters);
+
                 using IDbConnection db = new SqlConnection(_connectionString);
                 await db.ExecuteAsync(procedureName, param: parameters, commandType: CommandType.StoredProcedure);
             }
             catch (Exception ex)
             {
-                //Log error
+                Log.Error("Failed to Execute Stored Procedure {proc} with parameters {params}, Error: {error}", procedureName, parameters, ex.Message);
                 throw;
             }
         }
 
-        private async Task<List<T>> Query<T>(string procedureName, object parameters = null)
+        private async Task<List<T>> Query<T>(string procedureName, object? parameters = null)
         {
             try
             {
+                Log.Information("QUERY {proc} with parameters {parameters}", procedureName, parameters);
+
                 using IDbConnection db = new SqlConnection(_connectionString);
                 var results = await db.QueryAsync<T>(procedureName, param: parameters, commandType: CommandType.StoredProcedure);
                 return results.ToList();
             }
             catch (Exception ex)
             {
-                //Log error
+                Log.Error("Failed to Query Stored Procedure {proc} with parameters {params}, Error: {error}", procedureName, parameters, ex.Message);
                 throw;
             }
         }
