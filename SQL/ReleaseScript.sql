@@ -7,7 +7,7 @@ CREATE TABLE ParkingSpaces
 (
 	ParkingSpaceId uniqueidentifier NOT NULL,
 	Width decimal(5,2) NOT NULL,
-	BayText varchar(10),
+	BayIdentifier varchar(10),
 	PRIMARY KEY (ParkingSpaceId)
 )
 
@@ -32,9 +32,9 @@ INSERT INTO ParkingSpaces VALUES (NEWID(),2.6,'203')
 INSERT INTO ParkingSpaces VALUES (NEWID(),2.6,'204A')
 INSERT INTO ParkingSpaces VALUES (NEWID(),3.0,'204B')
 
-INSERT INTO Bookings VALUES (NEWID(),GETDATE(),DATEADD(DAY,3,GETDATE()),(SELECT TOP (1) ParkingSpaceId FROM ParkingSpaces WHERE BayText = '101'))
-INSERT INTO Bookings VALUES (NEWID(),GETDATE(),DATEADD(DAY,7,GETDATE()),(SELECT TOP (1) ParkingSpaceId FROM ParkingSpaces WHERE BayText = '201'))
-INSERT INTO Bookings VALUES (NEWID(),GETDATE(),DATEADD(DAY,14,GETDATE()),(SELECT TOP (1) ParkingSpaceId FROM ParkingSpaces WHERE BayText = '202'))
+INSERT INTO Bookings VALUES (NEWID(),GETDATE(),DATEADD(DAY,3,GETDATE()),(SELECT TOP (1) ParkingSpaceId FROM ParkingSpaces WHERE BayIdentifier = '101'))
+INSERT INTO Bookings VALUES (NEWID(),GETDATE(),DATEADD(DAY,7,GETDATE()),(SELECT TOP (1) ParkingSpaceId FROM ParkingSpaces WHERE BayIdentifier = '201'))
+INSERT INTO Bookings VALUES (NEWID(),GETDATE(),DATEADD(DAY,14,GETDATE()),(SELECT TOP (1) ParkingSpaceId FROM ParkingSpaces WHERE BayIdentifier = '202'))
 GO
 
 CREATE OR ALTER PROCEDURE [dbo].[GetBookingFromId]
@@ -83,5 +83,28 @@ BEGIN
 	SET StartDate = @StartDate,
 	    EndDate = @EndDate
 	WHERE BookingId = @BookingId
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[GetParkingSpaces]
+AS
+BEGIN
+	SELECT
+			ParkingSpaceId,
+			Width,
+			BayIdentifier,
+	FROM dbo.ParkingSpaces
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[GetBookings]
+AS
+BEGIN
+	SELECT
+			BookingId,
+			StartDate,
+			EndDate,
+			LinkParkingSpace
+	FROM dbo.Bookings
 END
 GO

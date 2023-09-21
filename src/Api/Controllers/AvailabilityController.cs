@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Core.Helpers;
+using Core.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -12,7 +13,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("Price")]
-        public async Task<IActionResult> GetPriceForTimePeriod(DateTime startDate, DateTime endDate)
-            => new ContentResult { StatusCode = 501 };
+        public IActionResult GetPriceForTimePeriod(PriceRequest request) 
+            => Ok(PriceHelper.CalculatePrice(request.StartDate, request.EndDate));
     }
 }

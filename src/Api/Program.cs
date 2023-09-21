@@ -1,3 +1,7 @@
+using FluentValidation;
+using Api.Validators;
+using Core.Models.Requests;
+
 namespace Api
 {
     public class Program
@@ -9,6 +13,8 @@ namespace Api
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IValidator<PriceRequest>, PriceRequestValidator>();
 
             var app = builder.Build();
 
