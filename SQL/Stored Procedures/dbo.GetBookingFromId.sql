@@ -8,7 +8,9 @@ BEGIN
 			book.BookingId,
 			book.StartDate,
 			book.EndDate,
-			book.LinkParkingSpace
+			book.LinkParkingSpace,
+			ps.BayIdentifier,
+			ps.Width
 	FROM dbo.Bookings book
 	LEFT JOIN ParkingSpaces ps ON ps.ParkingSpaceId = book.LinkParkingSpace
 	WHERE book.BookingId = @BookingId

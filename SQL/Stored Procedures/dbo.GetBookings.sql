@@ -7,7 +7,7 @@ BEGIN
 			BookingId,
 			StartDate,
 			EndDate,
-			LinkParkingSpace
+			LinkParkingSpace as 'ParkingSpaceId'
 	FROM dbo.Bookings
 END
 GO

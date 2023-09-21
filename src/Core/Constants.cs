@@ -34,5 +34,10 @@ namespace Core
                 {12,1.25m},
             };
         }
+
+        public static class Messages
+        {
+            public const string NoSpacesAvailable = "No spaces are available for the dates provided";
+        }
     }
 }
