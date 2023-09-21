@@ -1,6 +1,7 @@
 using FluentValidation;
 using Api.Validators;
-using Core.Models.Requests;
+using Core.Processors;
+using FluentValidation.AspNetCore;
 
 namespace Api
 {
@@ -10,11 +11,14 @@ namespace Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<PriceRequestValidator>();
+
+            builder.Services.AddTransient<AvailabilityProcessor>();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            builder.Services.AddScoped<IValidator<PriceRequest>, PriceRequestValidator>();
 
             var app = builder.Build();
 
