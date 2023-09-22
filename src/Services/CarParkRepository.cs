@@ -16,9 +16,8 @@ namespace Services
             _connectionString = connectionString;
         }
 
-        public async Task CreateBooking(Booking booking)
-        {
-            await Execute("[dbo].[CreateBooking]",
+        public async Task CreateBooking(Booking booking) 
+            => await Execute("[dbo].[CreateBooking]",
                 new
                 {
                     booking.BookingId,
@@ -26,17 +25,23 @@ namespace Services
                     booking.EndDate,
                     booking.ParkingSpaceId
                 });
-        }
 
-        public Task UpdateBooking(Booking booking)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task UpdateBooking(Booking booking)
+            => await Execute("[dbo].[UpdateBooking]",
+                new
+                {
+                    booking.BookingId,
+                    booking.StartDate,
+                    booking.EndDate,
+                    booking.ParkingSpaceId,
+                });
 
-        public Task DeleteBooking(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task DeleteBooking(Guid id)
+            => await Execute("[dbo].[DeleteBookingFromId]",
+                new
+                {
+                    BookingId = id,
+                });
 
         public async Task<Booking?> GetBooking(Guid id)
             => (await Query<Booking>("[dbo].[GetBookingFromId]",

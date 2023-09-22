@@ -1,9 +1,10 @@
 USE CarPark
 
-CREATE OR ALTER PROCEDURE [dbo].[UpdateBookingDates]
+CREATE OR ALTER PROCEDURE [dbo].[UpdateBooking]
 	@BookingId uniqueidentifier,
 	@StartDate Date,
-	@EndDate Date
+	@EndDate Date,
+	@ParkingSpaceId uniqueidentifier
 AS
 BEGIN
 	UPDATE dbo.Bookings
