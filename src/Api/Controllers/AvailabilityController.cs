@@ -16,12 +16,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAvailabilityForTimePeriod(DateTime startDate, DateTime endDate)
-            => new ContentResult { StatusCode = 501 };
-
-        [HttpGet]
-        [Route("Price")]
-        public IActionResult GetPriceForTimePeriod([FromQuery] PriceRequest request) 
-            => Ok(_availabilityProcessor.CalculatePriceForDates(request));
+        public async Task<IActionResult> GetAvailabilityForTimePeriod([FromQuery] AvailabilityRequest request) 
+            => Ok(await _availabilityProcessor.GetAvailabilityForDates(request));
     }
 }

@@ -6,6 +6,9 @@ namespace SpecTests.Helpers
 {
     public static class RandomData
     {
+        public static int Number(int min, int max) 
+            => new Faker().Random.Number(min, max);
+
         public static ParkingSpace ParkingSpace() => new Faker<ParkingSpace>()
             .RuleFor(p => p.ParkingSpaceId, Guid.NewGuid())
             .RuleFor(p => p.Width, f => f.Random.Decimal(2.4m, 5m))

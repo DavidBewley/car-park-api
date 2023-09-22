@@ -11,7 +11,7 @@ namespace Core.Models.Responses
 
         public PriceResponse() { }
 
-        public PriceResponse(PriceRequest request, decimal price)
+        public PriceResponse(AvailabilityRequest request, decimal price)
         {
             StartDate = request.StartDate;
             EndDate = request.EndDate;

@@ -3,7 +3,7 @@ using Core.Models.Requests;
 
 namespace Api.Validators
 {
-    public class PriceRequestValidator : AbstractValidator<PriceRequest>
+    public class PriceRequestValidator : AbstractValidator<AvailabilityRequest>
     {
         public PriceRequestValidator()
         {

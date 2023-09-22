@@ -10,9 +10,6 @@ namespace SpecTests
 {
     public class BookingSpec
     {
-        public static DateTime AddDaysToToday(int days) 
-            => DateTime.Now.AddDays(days).Date;
-
         public class CreateBookingBase : IAsyncLifetime
         {
             protected CreateBookingRequest Request;
@@ -77,10 +74,10 @@ namespace SpecTests
             {
                 _parkingSpace = RandomData.ParkingSpace();
                 DbMockBuilder.AddParkingSpace(_parkingSpace);
-                Request = RandomData.CreateBookingRequest(startDate: AddDaysToToday(0), endDate: AddDaysToToday(3));
+                Request = RandomData.CreateBookingRequest(startDate: DateHelper.AddDaysToToday(0), endDate: DateHelper.AddDaysToToday(3));
 
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate: AddDaysToToday(-3), endDate: AddDaysToToday(-1), parkingSpaceId: _parkingSpace.ParkingSpaceId));
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate: AddDaysToToday(4), endDate:AddDaysToToday(7), parkingSpaceId: _parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate: DateHelper.AddDaysToToday(-3), endDate: DateHelper.AddDaysToToday(-1), parkingSpaceId: _parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate: DateHelper.AddDaysToToday(4), endDate:DateHelper.AddDaysToToday(7), parkingSpaceId: _parkingSpace.ParkingSpaceId));
             }
 
             [Fact]
@@ -112,9 +109,9 @@ namespace SpecTests
             {
                 var parkingSpace = RandomData.ParkingSpace();
                 DbMockBuilder.AddParkingSpace(parkingSpace);
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate: AddDaysToToday(-2), endDate: AddDaysToToday(3), parkingSpaceId:parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate: DateHelper.AddDaysToToday(-2), endDate: DateHelper.AddDaysToToday(3), parkingSpaceId:parkingSpace.ParkingSpaceId));
 
-                Request = RandomData.CreateBookingRequest(startDate: AddDaysToToday(-1), endDate: DateTime.Now.AddDays(1));
+                Request = RandomData.CreateBookingRequest(startDate: DateHelper.AddDaysToToday(-1), endDate: DateTime.Now.AddDays(1));
             }
 
             [Fact]

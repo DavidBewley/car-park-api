@@ -398,4 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Log files
-.log
+*.log
