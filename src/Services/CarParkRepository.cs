@@ -38,16 +38,26 @@ namespace Services
             throw new NotImplementedException();
         }
 
-        public Task<Booking> GetBooking(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Booking?> GetBooking(Guid id)
+            => (await Query<Booking>("[dbo].[GetBookingFromId]",
+                new
+                {
+                    BookingId = id
+                })).FirstOrDefault();
 
         public async Task<List<Booking>> GetAllBookings()
             => await Query<Booking>("[dbo].[GetBookings]");
 
         public async Task<List<ParkingSpace>> GetAllParkingSpaces()
             => await Query<ParkingSpace>("[dbo].[GetParkingSpaces]");
+
+        public async Task<ParkingSpace> GetParkingSpaceById(Guid id)
+            => (await Query<ParkingSpace>("[dbo].[GetParkingSpaceById]",
+                new
+                {
+                    ParkingSpaceId = id
+                })).First();
+
 
         private async Task Execute(string procedureName, object? parameters = null)
         {

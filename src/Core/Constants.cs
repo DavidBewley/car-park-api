@@ -38,6 +38,7 @@ namespace Core
         public static class Messages
         {
             public const string NoSpacesAvailable = "No spaces are available for the dates provided";
+            public const string BookingNotFound = "No booking with that reference could be found";
         }
     }
 }

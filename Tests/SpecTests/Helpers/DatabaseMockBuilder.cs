@@ -15,6 +15,12 @@ namespace SpecTests.Helpers
         public void AddBooking(Booking booking)
             => _bookings.Add(booking);
 
+        public void AddBookingGetById(Booking booking)
+            => _mock.Setup(m => m.GetBooking(booking.BookingId)).ReturnsAsync(booking);
+
+        public void AddParkingSpaceGetById(ParkingSpace space)
+            => _mock.Setup(m => m.GetParkingSpaceById(space.ParkingSpaceId)).ReturnsAsync(space);
+
         public Mock<ICarParkRepository> Build()
         {
             _mock.Setup(m => m.GetAllBookings()).ReturnsAsync(_bookings);

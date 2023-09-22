@@ -5,7 +5,6 @@ using Core.Interfaces;
 using Core.Models;
 using Core.Models.Requests;
 using Core.Models.Responses;
-using Serilog;
 
 namespace Core.Processors
 {
@@ -17,7 +16,23 @@ namespace Core.Processors
             _carParkRepository = carParkRepository;
         }
 
-        public async Task CreateBookingResponse(CreateBookingRequest request, Action<BookingResponse> onSuccess, Action<string> onNoAvailability)
+        public async Task GetBooking(Guid bookingId, Action<BookingResponse> onFound, Action<string> onNotFound)
+        {
+            var foundBooking = await _carParkRepository.GetBooking(bookingId);
+            if (foundBooking == null)
+            {
+                onNotFound(Constants.Messages.BookingNotFound);
+                return;
+            }
+
+            onFound(
+                new BookingResponse()
+                    .FromBooking(foundBooking)
+                    .WithParkingSpaceData(await _carParkRepository.GetParkingSpaceById(foundBooking.ParkingSpaceId))
+                );
+        }
+
+        public async Task CreateBooking(CreateBookingRequest request, Action<BookingResponse> onSuccess, Action<string> onNoAvailability)
         {
             var foundSpace = await FindFreeSpaceForDates(request.StartDate.Date, request.EndDate.Date);
             if (foundSpace == null)

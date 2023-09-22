@@ -16,18 +16,28 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("{bookingId}")]
-        public async Task<IActionResult> GetBooking([FromRoute] Guid bookingId) 
-            => new ContentResult { StatusCode = 501 };
+        public async Task<IActionResult> GetBooking([FromRoute] Guid bookingId)
+        {
+            ActionResult response = NotFound();
+
+            await _bookingProcessor.GetBooking(
+                bookingId,
+                onFound: booking => response = Ok(booking),
+                onNotFound: message => response = NotFound(message)
+            );
+
+            return response;
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request)
         {
             ActionResult response = NotFound();
 
-            await _bookingProcessor.CreateBookingResponse(
+            await _bookingProcessor.CreateBooking(
                 request,
                 onSuccess: booking => response = Ok(booking),
-                onNoAvailability: message => response = Ok(message)
+                onNoAvailability: message => response = BadRequest(message)
             );
 
             return response;

@@ -10,8 +10,9 @@ namespace Core.Interfaces
         Task CreateBooking(Booking booking);
         Task UpdateBooking(Booking booking);
         Task DeleteBooking(Guid id);
-        Task<Booking> GetBooking(Guid id);
+        Task<Booking?> GetBooking(Guid id);
         Task<List<Booking>> GetAllBookings();
         Task<List<ParkingSpace>> GetAllParkingSpaces();
+        Task<ParkingSpace> GetParkingSpaceById(Guid id);
     }
 }

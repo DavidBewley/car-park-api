@@ -45,9 +45,7 @@ BEGIN
 			book.BookingId,
 			book.StartDate,
 			book.EndDate,
-			book.LinkParkingSpace,
-			ps.BayIdentifier,
-			ps.Width
+			book.LinkParkingSpace as 'ParkingSpaceId'
 	FROM dbo.Bookings book
 	LEFT JOIN ParkingSpaces ps ON ps.ParkingSpaceId = book.LinkParkingSpace
 	WHERE book.BookingId = @BookingId
@@ -108,5 +106,18 @@ BEGIN
 			EndDate,
 			LinkParkingSpace as 'ParkingSpaceId'
 	FROM dbo.Bookings
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[GetParkingSpaceById]
+	@ParkingSpaceId uniqueidentifier
+AS
+BEGIN
+	SELECT
+			ParkingSpaceId,
+			Width,
+			BayIdentifier
+	FROM dbo.ParkingSpaces
+	WHERE ParkingSpaceId = @ParkingSpaceId
 END
 GO
