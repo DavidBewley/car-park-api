@@ -6,6 +6,7 @@ using Core.Models.Responses;
 using Core.Processors;
 using SpecTests.Helpers;
 
+
 namespace SpecTests
 {
     public class BookingSpec
@@ -60,8 +61,8 @@ namespace SpecTests
             public void ReturnedBookingIsCorrect()
             {
                 Response.BookingId.Should().NotBeEmpty();
-                Response.StartDate.Should().Be(Request.StartDate.Date);
-                Response.EndDate.Should().Be(Request.EndDate.Date);
+                Response.StartDate.Should().Be(Request.StartDate.Date.ToShortDateString());
+                Response.EndDate.Should().Be(Request.EndDate.Date.ToShortDateString());
                 Response.BayIdentifier.Should().Be(_parkingSpace.BayIdentifier);
                 Response.BayWidthInMetres.Should().Be(_parkingSpace.Width);
             }
@@ -78,10 +79,10 @@ namespace SpecTests
             {
                 _parkingSpace = RandomData.ParkingSpace();
                 DbMockBuilder.AddParkingSpace(_parkingSpace);
-                Request = RandomData.BookingRequest(startDate: DateHelper.AddDaysToToday(0), endDate: DateHelper.AddDaysToToday(3));
+                Request = RandomData.BookingRequest(startDate: AddDaysToToday(0), endDate: AddDaysToToday(3));
 
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate: DateHelper.AddDaysToToday(-3), endDate: DateHelper.AddDaysToToday(-1), parkingSpaceId: _parkingSpace.ParkingSpaceId));
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate: DateHelper.AddDaysToToday(4), endDate:DateHelper.AddDaysToToday(7), parkingSpaceId: _parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate: AddDaysToToday(-3), endDate: AddDaysToToday(-1), parkingSpaceId: _parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate: AddDaysToToday(4), endDate:AddDaysToToday(7), parkingSpaceId: _parkingSpace.ParkingSpaceId));
             }
 
             [Fact]
@@ -100,8 +101,8 @@ namespace SpecTests
             public void ReturnedBookingIsCorrect()
             {
                 Response.BookingId.Should().NotBeEmpty();
-                Response.StartDate.Should().Be(Request.StartDate.Date);
-                Response.EndDate.Should().Be(Request.EndDate.Date);
+                Response.StartDate.Should().Be(Request.StartDate.Date.ToShortDateString());
+                Response.EndDate.Should().Be(Request.EndDate.Date.ToShortDateString());
                 Response.BayIdentifier.Should().Be(_parkingSpace.BayIdentifier);
                 Response.BayWidthInMetres.Should().Be(_parkingSpace.Width);
             }
@@ -117,9 +118,9 @@ namespace SpecTests
             {
                 var parkingSpace = RandomData.ParkingSpace();
                 DbMockBuilder.AddParkingSpace(parkingSpace);
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate: DateHelper.AddDaysToToday(-2), endDate: DateHelper.AddDaysToToday(3), parkingSpaceId:parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate: AddDaysToToday(-2), endDate: AddDaysToToday(3), parkingSpaceId:parkingSpace.ParkingSpaceId));
 
-                Request = RandomData.BookingRequest(startDate: DateHelper.AddDaysToToday(-1), endDate: DateTime.Now.AddDays(1));
+                Request = RandomData.BookingRequest(startDate: AddDaysToToday(-1), endDate: DateTime.Now.AddDays(1));
             }
 
             [Fact]
@@ -188,8 +189,8 @@ namespace SpecTests
             public void BookingReturnedMatchesDatabase()
             {
                 Response.BookingId.Should().Be(_booking.BookingId);
-                Response.StartDate.Should().Be(_booking.StartDate);
-                Response.EndDate.Should().Be(_booking.EndDate);
+                Response.StartDate.Should().Be(_booking.StartDate.ToShortDateString());
+                Response.EndDate.Should().Be(_booking.EndDate.ToShortDateString());
                 Response.ParkingSpaceId.Should().Be(_parkingSpace.ParkingSpaceId);
                 Response.BayIdentifier.Should().Be(_parkingSpace.BayIdentifier);
                 Response.BayWidthInMetres.Should().Be(_parkingSpace.Width);
@@ -356,8 +357,8 @@ namespace SpecTests
             public void ReturnedBookingIsCorrect()
             {
                 Response.BookingId.Should().Be(BookingRequestId);
-                Response.StartDate.Should().Be(Request.StartDate.Date);
-                Response.EndDate.Should().Be(Request.EndDate.Date);
+                Response.StartDate.Should().Be(Request.StartDate.Date.ToShortDateString());
+                Response.EndDate.Should().Be(Request.EndDate.Date.ToShortDateString());
                 Response.BayIdentifier.Should().Be(_parkingSpace.BayIdentifier);
                 Response.BayWidthInMetres.Should().Be(_parkingSpace.Width);
             }
@@ -377,15 +378,15 @@ namespace SpecTests
             public WhenUpdateBookingRequestIsValidIfCurrentBookingIsReplaced()
             {
                 BookingRequestId = Guid.NewGuid();
-                Request = RandomData.BookingRequest(startDate: DateHelper.AddDaysToToday(0), endDate: DateHelper.AddDaysToToday(4));
-                var originalBooking = RandomData.Booking(bookingId: BookingRequestId, startDate: DateHelper.AddDaysToToday(0), endDate: DateHelper.AddDaysToToday(3));
+                Request = RandomData.BookingRequest(startDate: AddDaysToToday(0), endDate: AddDaysToToday(4));
+                var originalBooking = RandomData.Booking(bookingId: BookingRequestId, startDate: AddDaysToToday(0), endDate: AddDaysToToday(3));
                 _parkingSpace = RandomData.ParkingSpace();
                 DbMockBuilder.AddParkingSpace(_parkingSpace);
                 DbMockBuilder.AddBooking(originalBooking);
                 DbMockBuilder.AddBookingGetById(originalBooking);
 
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate:DateHelper.AddDaysToToday(-3),endDate:DateHelper.AddDaysToToday(-1), parkingSpaceId: _parkingSpace.ParkingSpaceId));
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate:DateHelper.AddDaysToToday(5),endDate:DateHelper.AddDaysToToday(7), parkingSpaceId: _parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate:AddDaysToToday(-3),endDate:AddDaysToToday(-1), parkingSpaceId: _parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate:AddDaysToToday(5),endDate:AddDaysToToday(7), parkingSpaceId: _parkingSpace.ParkingSpaceId));
             }
 
             [Fact]
@@ -408,8 +409,8 @@ namespace SpecTests
             public void ReturnedBookingIsCorrect()
             {
                 Response.BookingId.Should().Be(BookingRequestId);
-                Response.StartDate.Should().Be(Request.StartDate.Date);
-                Response.EndDate.Should().Be(Request.EndDate.Date);
+                Response.StartDate.Should().Be(Request.StartDate.Date.ToShortDateString());
+                Response.EndDate.Should().Be(Request.EndDate.Date.ToShortDateString());
                 Response.BayIdentifier.Should().Be(_parkingSpace.BayIdentifier);
                 Response.BayWidthInMetres.Should().Be(_parkingSpace.Width);
             }
@@ -428,7 +429,7 @@ namespace SpecTests
             public WhenUpdateBookingRequestIsNotFound()
             {
                 BookingRequestId = Guid.NewGuid();
-                Request = RandomData.BookingRequest(startDate: DateHelper.AddDaysToToday(0), endDate: DateHelper.AddDaysToToday(4));
+                Request = RandomData.BookingRequest(startDate: AddDaysToToday(0), endDate: AddDaysToToday(4));
             }
 
             [Fact]
@@ -466,15 +467,15 @@ namespace SpecTests
             public WhenUpdateBookingRequestConflictsWithCurrentBookings()
             {
                 BookingRequestId = Guid.NewGuid();
-                Request = RandomData.BookingRequest(startDate: DateHelper.AddDaysToToday(0), endDate: DateHelper.AddDaysToToday(5));
-                var originalBooking = RandomData.Booking(bookingId: BookingRequestId, startDate: DateHelper.AddDaysToToday(0), endDate: DateHelper.AddDaysToToday(3));
+                Request = RandomData.BookingRequest(startDate: AddDaysToToday(0), endDate: AddDaysToToday(5));
+                var originalBooking = RandomData.Booking(bookingId: BookingRequestId, startDate: AddDaysToToday(0), endDate: AddDaysToToday(3));
                 _parkingSpace = RandomData.ParkingSpace();
                 DbMockBuilder.AddParkingSpace(_parkingSpace);
                 DbMockBuilder.AddBooking(originalBooking);
                 DbMockBuilder.AddBookingGetById(originalBooking);
 
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate: DateHelper.AddDaysToToday(-3), endDate: DateHelper.AddDaysToToday(-1), parkingSpaceId: _parkingSpace.ParkingSpaceId));
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate: DateHelper.AddDaysToToday(5), endDate: DateHelper.AddDaysToToday(7), parkingSpaceId: _parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate: AddDaysToToday(-3), endDate: AddDaysToToday(-1), parkingSpaceId: _parkingSpace.ParkingSpaceId));
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate: AddDaysToToday(5), endDate: AddDaysToToday(7), parkingSpaceId: _parkingSpace.ParkingSpaceId));
             }
 
             [Fact]

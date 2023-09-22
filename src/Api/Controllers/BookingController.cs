@@ -1,4 +1,5 @@
 ﻿using Core.Models.Requests;
+using Core.Models.Responses;
 using Core.Processors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,7 @@ namespace Api.Controllers
             await _bookingProcessor.GetBooking(
                 bookingId,
                 onFound: booking => response = Ok(booking),
-                onNotFound: message => response = NotFound(message)
+                onNotFound: message => response = NotFound(new FailureResponse(404,message))
             );
 
             return response;
@@ -37,7 +38,7 @@ namespace Api.Controllers
             await _bookingProcessor.CreateBooking(
                 request,
                 onSuccess: booking => response = Ok(booking),
-                onNoAvailability: message => response = BadRequest(message)
+                onNoAvailability: message => response = BadRequest(new FailureResponse(400, message))
             );
 
             return response;
@@ -53,8 +54,8 @@ namespace Api.Controllers
                 bookingId,
                 request,
                 onSuccess: booking => response = Ok(booking),
-                onNotFound: message => response = NotFound(message),
-                onNoAvailability: message => response = BadRequest(message)
+                onNotFound: message => response = NotFound(new FailureResponse(404, message)),
+                onNoAvailability: message => response = BadRequest(new FailureResponse(400, message))
             );
 
             return response;
@@ -69,7 +70,7 @@ namespace Api.Controllers
             await _bookingProcessor.DeleteBooking(
                 bookingId,
                 onSuccess: () => response = Ok(),
-                onNotFound: message => response = BadRequest(message)
+                onNotFound: message => response = NotFound(new FailureResponse(404, message))
             );
 
             return response;

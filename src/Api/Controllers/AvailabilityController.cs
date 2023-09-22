@@ -10,10 +10,8 @@ namespace Api.Controllers
     {
         private readonly AvailabilityProcessor _availabilityProcessor;
 
-        public AvailabilityController(AvailabilityProcessor availabilityProcessor)
-        {
-            _availabilityProcessor = availabilityProcessor;
-        }
+        public AvailabilityController(AvailabilityProcessor availabilityProcessor) 
+            => _availabilityProcessor = availabilityProcessor;
 
         [HttpGet]
         public async Task<IActionResult> GetAvailabilityForTimePeriod([FromQuery] AvailabilityRequest request) 

@@ -6,6 +6,6 @@ namespace Core.Models
     {
         public Guid ParkingSpaceId { get; set; }
         public decimal Width { get; set; }
-        public string BayIdentifier { get; set; }
+        public string? BayIdentifier { get; set; }
     }
 }

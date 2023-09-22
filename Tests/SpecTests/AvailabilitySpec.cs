@@ -48,8 +48,8 @@ namespace SpecTests
             [Fact]
             public void ReturnedAvailabilityIsCorrect()
             {
-                Response.StartDate.Should().Be(Request.StartDate.Date);
-                Response.EndDate.Should().Be(Request.EndDate.Date);
+                Response.StartDate.Should().Be(Request.StartDate.Date.ToShortDateString());
+                Response.EndDate.Should().Be(Request.EndDate.Date.ToShortDateString());
                 Response.Price.Should().Be(10m);
                 Response.AvailableSpaces.Should().HaveCount(1);
                 Response.AvailableSpaces.Should().ContainEquivalentOf(_parkingSpace);
@@ -78,8 +78,8 @@ namespace SpecTests
             [Fact]
             public void ReturnedAvailabilityIsCorrect()
             {
-                Response.StartDate.Should().Be(Request.StartDate.Date);
-                Response.EndDate.Should().Be(Request.EndDate.Date);
+                Response.StartDate.Should().Be(Request.StartDate.Date.ToShortDateString());
+                Response.EndDate.Should().Be(Request.EndDate.Date.ToShortDateString());
                 Response.Price.Should().Be(10m);
                 Response.AvailableSpaces.Should().HaveCount(0);
             }
@@ -110,8 +110,8 @@ namespace SpecTests
             [Fact]
             public void ReturnedAvailabilityIsCorrect()
             {
-                Response.StartDate.Should().Be(Request.StartDate.Date);
-                Response.EndDate.Should().Be(Request.EndDate.Date);
+                Response.StartDate.Should().Be(Request.StartDate.Date.ToShortDateString());
+                Response.EndDate.Should().Be(Request.EndDate.Date.ToShortDateString());
                 Response.Price.Should().Be(10m);
                 Response.AvailableSpaces.Should().HaveCount(_parkingSpaces.Count);
                 Response.AvailableSpaces.Should().BeEquivalentTo(_parkingSpaces);

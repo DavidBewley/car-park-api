@@ -14,10 +14,8 @@ namespace Core.Processors
     {
         private readonly ICarParkRepository _carParkRepository;
 
-        public AvailabilityProcessor(ICarParkRepository carParkRepository)
-        {
-            _carParkRepository = carParkRepository;
-        }
+        public AvailabilityProcessor(ICarParkRepository carParkRepository) 
+            => _carParkRepository = carParkRepository;
 
         public async Task<AvailabilityResponse> GetAvailabilityForDates(AvailabilityRequest request) 
             => new AvailabilityResponse()

@@ -6,12 +6,10 @@ namespace Core.Models.Responses
 {
     public class AvailabilityResponse
     {
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
         public decimal Price { get; set; }
-        public List<ParkingSpace> AvailableSpaces { get; set; }
-
-        public AvailabilityResponse() { }
+        public List<ParkingSpace> AvailableSpaces { get; set; } = new List<ParkingSpace>();
 
         public AvailabilityResponse WithPrice(decimal price)
         {
@@ -21,8 +19,8 @@ namespace Core.Models.Responses
 
         public AvailabilityResponse WithRequestData(AvailabilityRequest request)
         {
-            StartDate  = request.StartDate;
-            EndDate = request.EndDate;
+            StartDate  = request.StartDate.ToShortDateString();
+            EndDate = request.EndDate.ToShortDateString();
             return this;
         }
 

@@ -11,10 +11,8 @@ namespace Core.Processors
     public class BookingProcessor
     {
         private readonly ICarParkRepository _carParkRepository;
-        public BookingProcessor(ICarParkRepository carParkRepository)
-        {
-            _carParkRepository = carParkRepository;
-        }
+        public BookingProcessor(ICarParkRepository carParkRepository) 
+            => _carParkRepository = carParkRepository;
 
         public async Task GetBooking(Guid bookingId, Action<BookingResponse> onFound, Action<string> onNotFound)
         {
