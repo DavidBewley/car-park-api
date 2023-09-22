@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Api.Validators
 {
-    public class CreateBookingValidator : AbstractValidator<CreateBookingRequest>
+    public class CreateBookingValidator : AbstractValidator<BookingRequest>
     {
         public CreateBookingValidator()
         {

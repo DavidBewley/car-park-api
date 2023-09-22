@@ -2,7 +2,7 @@
 
 namespace Core.Models.Requests
 {
-    public class CreateBookingRequest
+    public class BookingRequest
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

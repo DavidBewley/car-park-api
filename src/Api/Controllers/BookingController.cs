@@ -30,7 +30,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request)
+        public async Task<IActionResult> CreateBooking([FromBody] BookingRequest request)
         {
             ActionResult response = NotFound();
 
@@ -45,8 +45,20 @@ namespace Api.Controllers
 
         [HttpPut]
         [Route("{bookingId}")]
-        public async Task<IActionResult> UpdateBooking([FromRoute] Guid bookingId)
-            => new ContentResult { StatusCode = 501 };
+        public async Task<IActionResult> UpdateBooking([FromRoute] Guid bookingId, [FromBody] BookingRequest request)
+        {
+            ActionResult response = NotFound();
+
+            await _bookingProcessor.UpdateBooking(
+                bookingId,
+                request,
+                onSuccess: booking => response = Ok(booking),
+                onNotFound: message => response = NotFound(message),
+                onNoAvailability: message => response = BadRequest(message)
+            );
+
+            return response;
+        }
 
         [HttpDelete]
         [Route("{bookingId}")]

@@ -5,12 +5,18 @@ namespace Core.Models
 {
     public class Booking
     {
-        public Guid BookingId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public Guid ParkingSpaceId { get; set; }
+        public Guid BookingId { get; private set; }
+        public DateTime StartDate { get; private set; }
+        public DateTime EndDate { get; private set; }
+        public Guid ParkingSpaceId { get; private set; }
 
-        public Booking WithCreateRequest(CreateBookingRequest request)
+        public Booking WithBookingId(Guid id)
+        {
+            BookingId = id;
+            return this;
+        }
+
+        public Booking WithRequest(BookingRequest request)
         {
             BookingId = Guid.NewGuid();
             StartDate = request.StartDate.Date;
