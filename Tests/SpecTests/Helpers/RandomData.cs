@@ -20,9 +20,12 @@ namespace SpecTests.Helpers
             .RuleFor(b => b.EndDate, f => endDate ?? f.Date.Future())
             .RuleFor(b => b.ParkingSpaceId, parkingSpaceId ?? Guid.NewGuid());
 
-        public static BookingRequest BookingRequest(DateTime? startDate = null, DateTime? endDate = null) =>
-            new Faker<BookingRequest>()
+        public static BookingRequest BookingRequest(DateTime? startDate = null, DateTime? endDate = null) => new Faker<BookingRequest>()
                 .RuleFor(b => b.StartDate, f => startDate ?? f.Date.Past())
                 .RuleFor(b => b.EndDate, f => endDate ?? f.Date.Future());
+
+        public static AvailabilityRequest AvailabilityRequest(DateTime? startDate = null, DateTime? endDate = null) => new Faker<AvailabilityRequest>()
+            .RuleFor(b => b.StartDate, f => startDate ?? f.Date.Past())
+            .RuleFor(b => b.EndDate, f => endDate ?? f.Date.Future());
     }
 }

@@ -13,8 +13,8 @@ namespace SpecTests
         public class CreateBookingBase : IAsyncLifetime
         {
             protected BookingRequest Request;
-            protected BookingResponse Response;
-            protected string UnsuccessfulMessage;
+            protected BookingResponse? Response;
+            protected string? UnsuccessfulMessage;
 
             protected DatabaseMockBuilder DbMockBuilder = new();
             protected Mock<ICarParkRepository> DatabaseMock;
@@ -135,6 +135,10 @@ namespace SpecTests
                 => DatabaseMock.Verify(d => d.CreateBooking(It.IsAny<Booking>()), Times.Never);
 
             [Fact]
+            public void NoBookingIsReturned()
+                => Response.Should().BeNull();
+
+            [Fact]
             public void MessageIsReturned() 
                 => UnsuccessfulMessage.Should().Be(Constants.Messages.NoSpacesAvailable);
         }
@@ -142,8 +146,8 @@ namespace SpecTests
         public class GetBookingBase : IAsyncLifetime
         {
             protected Guid BookingId;
-            protected BookingResponse Response;
-            protected string UnsuccessfulMessage;
+            protected BookingResponse? Response;
+            protected string? UnsuccessfulMessage;
 
             protected DatabaseMockBuilder DbMockBuilder = new();
             protected Mock<ICarParkRepository> DatabaseMock;
@@ -208,6 +212,10 @@ namespace SpecTests
                 => DatabaseMock.Verify(d => d.GetBooking(BookingId), Times.Once);
 
             [Fact]
+            public void NoBookingIsReturned()
+                => Response.Should().BeNull();
+
+            [Fact]
             public void UnsuccessfulMessageIsReturned() 
                 => UnsuccessfulMessage.Should().Be(Constants.Messages.BookingNotFound);
         }
@@ -216,7 +224,7 @@ namespace SpecTests
         {
             protected Guid BookingId;
             protected bool OnSuccessCalled;
-            protected string NotFoundMessage;
+            protected string? NotFoundMessage;
 
             protected DatabaseMockBuilder DbMockBuilder = new();
             protected Mock<ICarParkRepository> DatabaseMock;

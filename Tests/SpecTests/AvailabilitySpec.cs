@@ -34,11 +34,7 @@ namespace SpecTests
             {
                 _parkingSpace = RandomData.ParkingSpace();
                 DbMockBuilder.AddParkingSpace(_parkingSpace);
-                Request = new AvailabilityRequest
-                {
-                    StartDate = DateTime.Parse("2023-09-04"),
-                    EndDate = DateTime.Parse("2023-09-06"),
-                };
+                Request = RandomData.AvailabilityRequest(startDate: DateTime.Parse("2023-09-04"), endDate: DateTime.Parse("2023-09-06"));
             }
 
             [Fact]
@@ -68,11 +64,7 @@ namespace SpecTests
                 _parkingSpace = RandomData.ParkingSpace();
                 DbMockBuilder.AddParkingSpace(_parkingSpace);
                 DbMockBuilder.AddBooking(RandomData.Booking(startDate:DateTime.Parse("2023-09-02"),endDate:DateTime.Parse("2023-09-08"),parkingSpaceId:_parkingSpace.ParkingSpaceId));
-                Request = new AvailabilityRequest
-                {
-                    StartDate = DateTime.Parse("2023-09-04"),
-                    EndDate = DateTime.Parse("2023-09-06"),
-                };
+                Request = RandomData.AvailabilityRequest(startDate: DateTime.Parse("2023-09-04"), endDate: DateTime.Parse("2023-09-06"));
             }
 
             [Fact]
@@ -104,12 +96,7 @@ namespace SpecTests
                     _parkingSpaces.Add(randomParkingSpace);
                     DbMockBuilder.AddParkingSpace(randomParkingSpace);
                 }
-
-                Request = new AvailabilityRequest
-                {
-                    StartDate = DateTime.Parse("2023-09-04"),
-                    EndDate = DateTime.Parse("2023-09-06"),
-                };
+                Request = RandomData.AvailabilityRequest(startDate: DateTime.Parse("2023-09-04"), endDate: DateTime.Parse("2023-09-06"));
             }
 
             [Fact]
