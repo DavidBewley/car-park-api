@@ -53,6 +53,18 @@ namespace Core.Processors
             );
         }
 
+        public async Task DeleteBooking(Guid bookingId, Action onSuccess, Action<string> onNotFound)
+        {
+            var foundBooking = await _carParkRepository.GetBooking(bookingId);
+            if (foundBooking == null)
+            {
+                onNotFound(Constants.Messages.BookingNotFound);
+                return;
+            }
+
+            onSuccess();
+        }
+
         private async Task<ParkingSpace?> FindFreeSpaceForDates(DateTime startDate, DateTime endDate)
         {
             var spaces = await _carParkRepository.GetAllParkingSpaces();

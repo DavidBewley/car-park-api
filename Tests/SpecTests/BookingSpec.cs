@@ -211,5 +211,71 @@ namespace SpecTests
             public void UnsuccessfulMessageIsReturned() 
                 => UnsuccessfulMessage.Should().Be(Constants.Messages.BookingNotFound);
         }
+
+        public class DeleteBookingBase : IAsyncLifetime
+        {
+            protected Guid BookingId;
+            protected bool OnSuccessCalled;
+            protected string NotFoundMessage;
+
+            protected DatabaseMockBuilder DbMockBuilder = new();
+            protected Mock<ICarParkRepository> DatabaseMock;
+
+            public async Task InitializeAsync()
+            {
+                DatabaseMock = DbMockBuilder.Build();
+                await new BookingProcessor(DatabaseMock.Object)
+                    .DeleteBooking(
+                        BookingId,
+                        onSuccess: () => OnSuccessCalled = true,
+                        onNotFound: message => NotFoundMessage = message
+                    );
+            }
+
+            public Task DisposeAsync()
+                => Task.CompletedTask;
+        }
+
+        public class WhenBookingCanBeDeleted : DeleteBookingBase
+        {
+            public WhenBookingCanBeDeleted()
+            {
+                var booking = RandomData.Booking();
+                BookingId = booking.BookingId;
+                DbMockBuilder.AddBookingGetById(booking);
+            }
+
+            [Fact]
+            public void BookingIsRetrievedFromDatabase()
+                => DatabaseMock.Verify(d => d.GetBooking(BookingId), Times.Once);
+
+            [Fact]
+            public void OnSuccessIsCalled() 
+                => OnSuccessCalled.Should().BeTrue();
+
+            [Fact]
+            public void UnsuccessfulMessageIsNotReturned()
+                => NotFoundMessage.Should().BeNull();
+        }
+
+        public class WhenBookingCannotBeDeleted : DeleteBookingBase
+        {
+            public WhenBookingCannotBeDeleted()
+            {
+                BookingId = Guid.NewGuid();
+            }
+
+            [Fact]
+            public void BookingIsRetrievedFromDatabase()
+                => DatabaseMock.Verify(d => d.GetBooking(BookingId), Times.Once);
+
+            [Fact]
+            public void UnsuccessfulMessageIsReturned()
+                => NotFoundMessage.Should().Be(Constants.Messages.BookingNotFound);
+
+            [Fact]
+            public void OnSuccessIsNotCalled()
+                => OnSuccessCalled.Should().BeFalse();
+        }
     }
 }

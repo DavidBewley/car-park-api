@@ -51,6 +51,16 @@ namespace Api.Controllers
         [HttpDelete]
         [Route("{bookingId}")]
         public async Task<IActionResult> DeleteBooking([FromRoute] Guid bookingId)
-            => new ContentResult { StatusCode = 501 };
+        {
+            ActionResult response = NotFound();
+
+            await _bookingProcessor.DeleteBooking(
+                bookingId,
+                onSuccess: () => response = Ok(),
+                onNotFound: message => response = BadRequest(message)
+            );
+
+            return response;
+        }
     }
 }
