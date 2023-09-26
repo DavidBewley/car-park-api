@@ -1,5 +1,4 @@
 ﻿using Core.Models.Requests;
-using System;
 using System.Collections.Generic;
 
 namespace Core.Models.Responses

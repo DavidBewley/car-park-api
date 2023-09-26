@@ -58,12 +58,11 @@ namespace SpecTests
 
         public class WhenSpaceIsNotAvailable : GetAvailabilityBase
         {
-            private readonly ParkingSpace _parkingSpace;
             public WhenSpaceIsNotAvailable()
             {
-                _parkingSpace = RandomData.ParkingSpace();
-                DbMockBuilder.AddParkingSpace(_parkingSpace);
-                DbMockBuilder.AddBooking(RandomData.Booking(startDate:DateTime.Parse("2023-09-02"),endDate:DateTime.Parse("2023-09-08"),parkingSpaceId:_parkingSpace.ParkingSpaceId));
+                var parkingSpace = RandomData.ParkingSpace();
+                DbMockBuilder.AddParkingSpace(parkingSpace);
+                DbMockBuilder.AddBooking(RandomData.Booking(startDate:DateTime.Parse("2023-09-02"),endDate:DateTime.Parse("2023-09-08"),parkingSpaceId:parkingSpace.ParkingSpaceId));
                 Request = RandomData.AvailabilityRequest(startDate: DateTime.Parse("2023-09-04"), endDate: DateTime.Parse("2023-09-06"));
             }
 
