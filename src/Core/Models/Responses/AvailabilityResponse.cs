@@ -5,10 +5,10 @@ namespace Core.Models.Responses
 {
     public class AvailabilityResponse
     {
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
-        public decimal Price { get; set; }
-        public List<ParkingSpace> AvailableSpaces { get; set; } = new List<ParkingSpace>();
+        public string StartDate { get; private set; }
+        public string EndDate { get; private set; }
+        public decimal Price { get; private set; }
+        public List<ParkingSpace> AvailableSpaces { get; private set; } = new List<ParkingSpace>();
 
         public AvailabilityResponse WithPrice(decimal price)
         {

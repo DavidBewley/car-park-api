@@ -4,12 +4,12 @@ namespace Core.Models.Responses
 {
     public class BookingResponse
     {
-        public Guid BookingId { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
-        public Guid ParkingSpaceId { get; set; }
-        public string? BayIdentifier { get; set; }
-        public decimal BayWidthInMetres { get; set; }
+        public Guid BookingId { get; private set; }
+        public string StartDate { get; private set; }
+        public string EndDate { get; private set; }
+        public Guid ParkingSpaceId { get; private set; }
+        public string? BayIdentifier { get; private set; }
+        public decimal BayWidthInMetres { get; private set; }
 
         public BookingResponse FromBooking(Booking booking)
         {
