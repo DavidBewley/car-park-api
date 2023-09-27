@@ -11,17 +11,14 @@ namespace Core.Processors
     public class BookingProcessor
     {
         private readonly ICarParkRepository _carParkRepository;
-        public BookingProcessor(ICarParkRepository carParkRepository) 
+        public BookingProcessor(ICarParkRepository carParkRepository)
             => _carParkRepository = carParkRepository;
 
         public async Task GetBooking(Guid bookingId, Action<BookingResponse> onFound, Action<string> onNotFound)
         {
-            var foundBooking = await _carParkRepository.GetBooking(bookingId);
-            if (foundBooking == null)
-            {
-                onNotFound(Constants.Messages.BookingNotFound);
+            var (bookingExists, foundBooking) = await TryGetBooking(bookingId, onNotFound);
+            if (!bookingExists)
                 return;
-            }
 
             onFound(
                 new BookingResponse()
@@ -53,12 +50,9 @@ namespace Core.Processors
 
         public async Task UpdateBooking(Guid bookingId, BookingRequest request, Action<BookingResponse> onSuccess, Action<string> onNotFound, Action<string> onNoAvailability)
         {
-            var foundBooking = await _carParkRepository.GetBooking(bookingId);
-            if (foundBooking == null)
-            {
-                onNotFound(Constants.Messages.BookingNotFound);
+            var (bookingExists, foundBooking) = await TryGetBooking(bookingId, onNotFound);
+            if (!bookingExists)
                 return;
-            }
 
             var foundSpace = await FindFreeSpaceForDates(request.StartDate.Date, request.EndDate.Date, bookingId);
             if (foundSpace == null)
@@ -82,15 +76,22 @@ namespace Core.Processors
 
         public async Task DeleteBooking(Guid bookingId, Action onSuccess, Action<string> onNotFound)
         {
-            var foundBooking = await _carParkRepository.GetBooking(bookingId);
-            if (foundBooking == null)
-            {
-                onNotFound(Constants.Messages.BookingNotFound);
+            var (bookingExists, foundBooking) = await TryGetBooking(bookingId, onNotFound);
+            if (!bookingExists)
                 return;
-            }
 
             await _carParkRepository.DeleteBooking(bookingId);
             onSuccess();
+        }
+
+        private async Task<(bool bookingFound, Booking booking)> TryGetBooking(Guid bookingId, Action<string> failureAction)
+        {
+            var foundBooking = await _carParkRepository.GetBooking(bookingId);
+            if (foundBooking != null)
+                return (true, foundBooking);
+
+            failureAction(Constants.Messages.BookingNotFound);
+            return (false, default);
         }
 
         private async Task<ParkingSpace?> FindFreeSpaceForDates(DateTime startDate, DateTime endDate, Guid? excludedBookingRequestId = null)
